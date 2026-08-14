@@ -126,3 +126,65 @@ Copia este bloco para cada problema novo que resolveres:
 **Solução:** criei um fork na minha conta GitHub, redirecionei o `remote origin` local para o meu fork, e voltei a fazer push com sucesso.
 
 **Aprendizagem:** este é o fluxo real de contribuição em open source e em muitas empresas — fork, branch, commit, pull request. Já pratiquei o ciclo completo.
+
+## 12/08/2026 — Typo no seletor (singup vs signup)
+
+**Contexto:** a escrever o teste de registo de novo usuário no RWA, clique no botão "Sign Up".
+
+**Problema:** `AssertionError: Timed out retrying... Expected to find element: [data-test="singup-submit"], but never found it.`
+
+**Investigação:** comparei o seletor letra a letra com os outros já usados no mesmo teste (`signup-username`, `signup-password`).
+
+**Causa raiz:** erro de digitação — escrevi `singup` em vez de `signup`.
+
+**Solução:** corrigi a string do seletor.
+
+**Aprendizagem:** quando um seletor "correto" não é encontrado, comparar caractere a caractere com seletores irmãos que já funcionam é mais rápido do que assumir que o atributo não existe.
+
+---
+
+## 12/08/2026 — npm install falhou com ERESOLVE (conflito de peer dependencies)
+
+**Contexto:** a instalar o Chance.js no projeto `cypress-realworld-app` para gerar dados de teste dinâmicos.
+
+**Problema:** `npm error ERESOLVE could not resolve` — conflito entre versões de `vite` exigidas por diferentes pacotes do próprio projeto.
+
+**Investigação:** o erro apontava para dependências internas do projeto (vite-plugin-istanbul vs vitest), não para o pacote que eu estava a instalar.
+
+**Causa raiz:** o npm mais recente valida peer dependencies de forma mais rígida, e o projeto RWA já tinha conflitos internos antes mesmo do meu install.
+
+**Solução:** usei `npm install chance --save-dev --legacy-peer-deps` para instruir o npm a ignorar esses conflitos.
+
+**Aprendizagem:** `--legacy-peer-deps` é seguro quando o conflito é entre pacotes já existentes no projeto e não envolve o pacote que estou a instalar.
+
+---
+
+## 12/08/2026 — cy.type() com valor undefined
+
+**Contexto:** a tentar deixar um campo do formulário de registo propositadamente vazio, para testar validação de campo obrigatório.
+
+**Problema:** `CypressError: cy.type() can only accept a string or number. You passed in: undefined`
+
+**Investigação:** percebi que a linha `.type()` continuava no código, só sem argumento lá dentro.
+
+**Causa raiz:** para deixar um campo vazio no teste, a linha do `.type()` não deve existir — chamá-la sem valor não é o mesmo que "não preencher".
+
+**Solução:** apaguei a linha inteira do `.type()` para esse campo.
+
+**Aprendizagem:** "campo vazio" no teste = ausência da ação, não uma ação com valor vazio/undefined.
+
+---
+
+## 12/08/2026 — Validação só aparece depois do campo ser "tocado"
+
+**Contexto:** teste de registo com campo obrigatório vazio — esperava ver a mensagem de erro só por o campo estar vazio.
+
+**Problema:** `AssertionError: Timed out retrying... Expected to find element: #confirmPassword-helper-text, but never found it.`
+
+**Investigação:** percebi que a mensagem de erro só é renderizada depois do campo receber foco e depois perder foco (comportamento comum em formulários com Formik/validação "touched-based").
+
+**Causa raiz:** o campo nunca tinha sido focado no teste, por isso a validação nunca disparava.
+
+**Solução:** adicionei `.focus().blur()` no campo antes de verificar a mensagem de erro.
+
+**Aprendizagem:** campo vazio ≠ campo validado. Muitos formulários só validam depois de interação (touched), não continuamente.
