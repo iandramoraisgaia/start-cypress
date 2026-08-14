@@ -188,3 +188,5 @@ Copia este bloco para cada problema novo que resolveres:
 **Solução:** adicionei `.focus().blur()` no campo antes de verificar a mensagem de erro.
 
 **Aprendizagem:** campo vazio ≠ campo validado. Muitos formulários só validam depois de interação (touched), não continuamente.
+
+**Aprendizagem:** nunca usar `git add .` sem antes correr `git status` para confirmar exatamente o que vai ser incluído. Preferir `git add <ficheiro>` específico. Nota extra: ficheiros que ficam staged não se "limpam" sozinhos entre comandos — por isso o `send-cash.spec.js`, staged mais cedo, acabou dentro do commit seguinte ("Stop tracking local database state"), mesmo sem eu mandar explicitamente.
