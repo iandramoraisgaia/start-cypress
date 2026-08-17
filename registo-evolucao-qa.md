@@ -190,3 +190,33 @@ Copia este bloco para cada problema novo que resolveres:
 **Aprendizagem:** campo vazio ≠ campo validado. Muitos formulários só validam depois de interação (touched), não continuamente.
 
 **Aprendizagem:** nunca usar `git add .` sem antes correr `git status` para confirmar exatamente o que vai ser incluído. Preferir `git add <ficheiro>` específico. Nota extra: ficheiros que ficam staged não se "limpam" sozinhos entre comandos — por isso o `send-cash.spec.js`, staged mais cedo, acabou dentro do commit seguinte ("Stop tracking local database state"), mesmo sem eu mandar explicitamente.
+
+## 14/08/2026 — Modal de onboarding bloqueava interação, force:true não resolveu tudo
+
+**Contexto:** teste de "sem transações anteriores" — utilizador novo, criado via signup dentro do próprio teste.
+
+**Problema:** um modal obrigatório ("Get Started with Real World App") aparecia após o primeiro login, sem botão de fechar, bloqueando cliques mesmo com `{force: true}`.
+
+**Investigação:** o `{force: true}` conseguiu clicar no separador "Mine" por trás do modal, mas o conteúdo continuava invisível — o modal escondia genuinamente o conteúdo (não era só sobreposição visual).
+
+**Causa raiz:** para utilizadores novos, a app exige criação de conta bancária antes de liberar o resto da interface — não há atalho, é um fluxo obrigatório.
+
+**Solução:** completei o fluxo real (clicar "Next", preencher conta bancária, submeter, clicar "Done") dentro do próprio teste, antes de continuar para a verificação de transações.
+
+**Aprendizagem:** nem todo bloqueio visual se resolve com `{force: true}` — quando o elemento está genuinamente escondido (não só coberto), é preciso completar o fluxo real da aplicação.
+
+---
+
+## 14/08/2026 — Mesmo campo, atributos diferentes (data-test vs id vs placeholder)
+
+**Contexto:** a preencher o formulário de conta bancária (Bank Name, Routing Number, Account Number).
+
+**Problema:** `data-test` funcionava nuns campos e não noutros; tentativas de adivinhar o nome do atributo (incluindo copiar da caixa de pesquisa do DevTools) davam seletores errados ou demasiado genéricos (ex: `data-layer="Content"`).
+
+**Investigação:** inspecionei o HTML real de um dos inputs e vi que tinha `id`, `name` E `placeholder`, mas não necessariamente `data-test` em todos.
+
+**Causa raiz:** nem todos os campos da mesma aplicação seguem o mesmo padrão de atributos — é preciso confirmar campo a campo, não assumir.
+
+**Solução:** usei `placeholder` como alternativa rápida e fiável quando `data-test`/`id` não eram consistentes.
+
+**Aprendizagem:** ter uma hierarquia de seletores (data-test > id > name > placeholder > texto) e testar a próxima opção rapidamente quando uma falha, em vez de insistir a adivinhar variações do mesmo atributo.
