@@ -191,7 +191,7 @@ Copia este bloco para cada problema novo que resolveres:
 
 **Aprendizagem:** nunca usar `git add .` sem antes correr `git status` para confirmar exatamente o que vai ser incluído. Preferir `git add <ficheiro>` específico. Nota extra: ficheiros que ficam staged não se "limpam" sozinhos entre comandos — por isso o `send-cash.spec.js`, staged mais cedo, acabou dentro do commit seguinte ("Stop tracking local database state"), mesmo sem eu mandar explicitamente.
 
-## 14/08/2026 — Modal de onboarding bloqueava interação, force:true não resolveu tudo
+## 17/08/2026 — Modal de onboarding bloqueava interação, force:true não resolveu tudo
 
 **Contexto:** teste de "sem transações anteriores" — utilizador novo, criado via signup dentro do próprio teste.
 
@@ -207,7 +207,7 @@ Copia este bloco para cada problema novo que resolveres:
 
 ---
 
-## 14/08/2026 — Mesmo campo, atributos diferentes (data-test vs id vs placeholder)
+## 17/08/2026 — Mesmo campo, atributos diferentes (data-test vs id vs placeholder)
 
 **Contexto:** a preencher o formulário de conta bancária (Bank Name, Routing Number, Account Number).
 
