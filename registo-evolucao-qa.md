@@ -220,3 +220,65 @@ Copia este bloco para cada problema novo que resolveres:
 **Solução:** usei `placeholder` como alternativa rápida e fiável quando `data-test`/`id` não eram consistentes.
 
 **Aprendizagem:** ter uma hierarquia de seletores (data-test > id > name > placeholder > texto) e testar a próxima opção rapidamente quando uma falha, em vez de insistir a adivinhar variações do mesmo atributo.
+
+## 20/08/2026 — Convenção de atributo de teste diferente por projeto (data-cy vs data-test)
+
+**Contexto:** a identificar seletores no projeto Cypress Heroes, depois de ter praticado no Real World App.
+
+**Problema:** tentei usar `[data-test="..."]` como no RWA, e não encontrava nenhum elemento.
+
+**Investigação:** inspecionei os campos de email/password e vi que o atributo usado aqui era `data-cy`, não `data-test`.
+
+**Causa raiz:** não existe uma convenção universal — cada projeto (ou equipa) escolhe o nome do atributo de teste que prefere.
+
+**Solução:** confirmei o atributo real inspecionando o DOM, em vez de assumir que seria igual ao projeto anterior.
+
+**Aprendizagem:** nunca assumir que um padrão de um projeto se aplica a outro — confirmar sempre no início de cada projeto novo.
+
+---
+
+## 20/08/2026 — Novos comandos Cypress: .select() e .selectFile()
+
+**Contexto:** a preencher o formulário de criação de herói, com um campo de seleção de poder (`<select>`) e um campo de upload de avatar.
+
+**Problema:** não sabia como interagir com um dropdown nem com um input de ficheiro usando `.type()`.
+
+**Investigação:** pesquisei a documentação do Cypress para comandos específicos a estes tipos de campo.
+
+**Causa raiz:** `.type()` só serve para campos de texto — dropdowns e uploads têm comandos próprios.
+
+**Solução:** usei `.select('Texto da opção')` para o dropdown, e `.selectFile('caminho/para/ficheiro')` para o upload, com uma imagem colocada na pasta `cypress/fixtures/`.
+
+**Aprendizagem:** cada tipo de elemento HTML pode exigir um comando Cypress diferente — vale a pena conhecer os principais (`.type`, `.select`, `.selectFile`, `.check`) em vez de forçar tudo com `.type()`.
+
+---
+
+## 20/08/2026 — Configuração do Cypress criada na pasta errada
+
+**Contexto:** a correr comandos do Cypress no projeto `cypress-heroes`.
+
+**Problema:** apareceram um `cypress.config.ts` e uma pasta `cypress/` novos na raiz do repositório, com conteúdo genérico/vazio.
+
+**Investigação:** percebi que tinha corrido um comando Cypress a partir da pasta raiz do projeto, não de dentro de `client/` (onde está a configuração real).
+
+**Causa raiz:** o Cypress cria uma configuração padrão automaticamente quando não encontra nenhuma na pasta onde é executado.
+
+**Solução:** apaguei os ficheiros criados por engano (`rm -rf cypress/` e `rm cypress.config.ts`) antes de commitar, confirmando primeiro com `git status`.
+
+**Aprendizagem:** confirmar sempre em que pasta se está (`pwd`) antes de correr comandos do Cypress em projetos com mais de uma configuração (monorepos).
+
+---
+
+## 20/08/2026 — Achado: listagem de heróis acessível sem autenticação
+
+**Contexto:** teste "Listagem de heróis após login".
+
+**Problema:** a listagem mostra os mesmos 7 heróis, esteja o utilizador logado ou não.
+
+**Investigação:** comparei manualmente a página com e sem sessão iniciada — nenhuma diferença de conteúdo.
+
+**Causa raiz:** a funcionalidade de listagem não parece exigir autenticação, ao contrário de criar/editar/apagar heróis (que são corretamente restritos).
+
+**Solução:** documentei como sugestão de melhoria (não bug formal, já que pode ser design intencional), no documento oficial de testes do exercício.
+
+**Aprendizagem:** nem toda inconsistência é um bug — às vezes é uma observação a validar com o time de produto antes de classificar como defeito.
