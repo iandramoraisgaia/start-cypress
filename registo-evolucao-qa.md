@@ -282,3 +282,19 @@ Copia este bloco para cada problema novo que resolveres:
 **Solução:** documentei como sugestão de melhoria (não bug formal, já que pode ser design intencional), no documento oficial de testes do exercício.
 
 **Aprendizagem:** nem toda inconsistência é um bug — às vezes é uma observação a validar com o time de produto antes de classificar como defeito.
+
+## 24/08/2026 — Depurar autenticação via Postman + DevTools reforça conhecimento de backend
+
+- O que fiz: Iniciei o módulo de testes de API com Serverest e Postman — criação de utilizador, exploração do Network tab do DevTools, e configuração de autenticação via Bearer Token com scripts que capturam e reutilizam o token automaticamente entre pedidos (login → criar produto).
+- Dificuldade: Erro 401 persistente com o token aparentemente correto. Causa em 3 camadas: erro de sintaxe JS (Let maiúsculo, ponto a mais antes de colchetes), depois uma variável duplicada em Environment a sobrepor-se à da Collection, e por fim aspas a transformar uma expressão (jsonToken[1]) numa string literal.
+- Como resolvi: Isolei o problema testando o token manualmente primeiro, corrigi a sintaxe do script passo a passo, apaguei a variável duplicada em Environment, e removi as aspas incorretas.
+- O que aprendi: A precedência de variáveis Environment > Collection no Postman, a diferença entre corpo do pedido e corpo da resposta (não reenviar campos calculados pelo servidor), e como pequenos erros de sintaxe JS geram falhas silenciosas difíceis de detetar sem isolar cada camada.
+- Evidência: prints do Network tab e do Console do Postman com o fluxo de debug e o 201 Created final.
+
+## 25/08/2026 — Mapeamento completo dos endpoints de Carrinhos (ServeRest) + script dinâmico
+
+- O que fiz: Completei os 5 endpoints de Carrinhos no Postman (listar, criar, buscar por ID, concluir compra, cancelar compra), incluindo um Pre-request Script avançado com pm.sendRequest() que escolhe automaticamente um produto real antes de criar cada carrinho.
+- Dificuldade: O mesmo bug de sobreposição Environment vs Collection repetiu-se com a variável random_product_id, causando erro 400 (idProduto em branco) mesmo com o script a funcionar.
+- Como resolvi: Reconheci o padrão mais rápido da segunda vez, confirmei a duplicação no painel "All variables", e apaguei a variável a mais do Environment.
+- O que aprendi: Nunca criar variáveis pelo atalho "Enter value" no painel do pedido — sempre diretamente na Collection ou via script, para evitar duplicações.
+- Evidência: prints do Postman com as respostas 201/200 de cada endpoint.
