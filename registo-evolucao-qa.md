@@ -298,3 +298,11 @@ Copia este bloco para cada problema novo que resolveres:
 - Como resolvi: Reconheci o padrão mais rápido da segunda vez, confirmei a duplicação no painel "All variables", e apaguei a variável a mais do Environment.
 - O que aprendi: Nunca criar variáveis pelo atalho "Enter value" no painel do pedido — sempre diretamente na Collection ou via script, para evitar duplicações.
 - Evidência: prints do Postman com as respostas 201/200 de cada endpoint.
+
+## 27/08/2026 — Collection Runner: automatizar o fluxo completo da API Serverest
+
+- O que fiz: Usei o Collection Runner do Postman para encadear vários pedidos numa única execução automática (criar utilizador, login, buscar utilizador, criar produto, criar carrinho, checkout), com dados dinâmicos gerados automaticamente em vez de fixos (`{{$randomFirstName}}`, `{{$randomEmail}}`).
+- Dificuldade: O "Create Product" falhava de forma inconsistente (ora 401, ora 403 "Rota exclusiva para administradores"), mesmo com a conta criada corretamente como admin e o token válido confirmado passo a passo.
+- Como resolvi: Fui à fonte em vez de continuar a adivinhar — consultei o código-fonte oficial do ServeRest no GitHub (middleware de autenticação e serviço de utilizadores) para confirmar exatamente como a validação de admin funciona no servidor. Confirmei que a minha configuração estava tecnicamente correta; a causa era instabilidade do servidor público partilhado (múltiplas instâncias, inconsistência momentânea após criar conta nova). Decidi remover esse pedido específico da sequência automática em vez de perder tempo a perseguir um problema fora do meu controlo, e mantive a demonstração com o fluxo estável.
+- O que aprendi: Nem todo erro é do meu lado — parte do trabalho de QA é saber distinguir um bug de configuração de uma instabilidade de ambiente, e ir à fonte (código, documentação) para confirmar em vez de assumir. Também aprendi a usar os geradores de dados dinâmicos nativos do Postman (`$randomFirstName`, `$randomEmail`) para evitar dados fixos que quebram por duplicação, e a reordenar sequências de teste diretamente no painel "Run Sequence" do Runner.
+- Evidência: vídeo da execução completa da Runner (0 erros), publicado no LinkedIn junto com o certificado do módulo de API Testing.
