@@ -1,8 +1,11 @@
-# 🧪 start-cypress — E2E Automation Practice
+# 🧪 learning-qa — QA Professional Training Practice
 
 ## Overview
-Hands-on Cypress test suite built as part of QA professional training (LumeStack, 2026).
-Covers real-world E2E scenarios following STLC methodology.
+Hands-on Cypress E2E practice built during QA professional training (LumeStack, "Profissão QA", 2026), following STLC methodology.
+
+This repository also hosts my ongoing learning log ([`registo-evolucao-qa.md`](./registo-evolucao-qa.md)), documenting challenges, fixes, and takeaways across the full program. Practical work from other modules lives in dedicated repositories:
+- API Testing (Postman + Serverest): [serverest-api-testing](https://github.com/iandramorais-qa/serverest-api-testing)
+- SQL (PostgreSQL + Northwind): [sql-qa-practice](https://github.com/iandramorais-qa/sql-qa-practice)
 
 ## Scope
 - Web form validation and field boundary testing
@@ -16,25 +19,19 @@ Covers real-world E2E scenarios following STLC methodology.
 - **Tooling:** SelectorsHub, VS Code, GitHub
 
 ## Installation
-
-```
+\`\`\`
 npm install
-```
-
+\`\`\`
 > NOTE: it is necessary to have **node** installed
 
 ## Running
-
-```bash
-# You open the Cypress UI
+\`\`\`bash
 npx cypress open
-
-# Run the automation by command line
 npx cypress run
-```
+\`\`\`
 
 ## Status
-🟡 In progress — actively adding test cases alongside QA certification curriculum.
+✅ Completed — LumeStack "Profissão QA" program finished. Final certificate pending issuance.
 
 ## Contact
 - LinkedIn: [linkedin.com/in/iandra-morais](https://www.linkedin.com/in/iandra-morais/)
